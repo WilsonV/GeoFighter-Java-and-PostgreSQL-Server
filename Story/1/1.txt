@@ -1,0 +1,21 @@
+SERVER ROOM
+Player
+60
+10
+20
+Vera Minion
+A
+fist of fire
+16
+1
+9
+24
+9
+ultimate fist
+ultimate fist
+ultimate fist
+1
+200
+2
+1
+1

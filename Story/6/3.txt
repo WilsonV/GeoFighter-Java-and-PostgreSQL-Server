@@ -1,0 +1,23 @@
+Player
+0
+10
+0
+Living Snowman
+A
+snowman
+25
+22
+9
+-
+-
+massive snowball
+massive snowball
+massive snowball
+30
+3500
+60
+40
+30
+boss
+full special
+long range attacker

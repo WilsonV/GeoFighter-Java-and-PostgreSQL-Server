@@ -1,0 +1,22 @@
+Player
+0
+10
+0
+King Shokan
+A
+shokan
+6
+3
+11
+27
+21
+shokan run kick
+shokan run kick
+shokan run kick
+10
+1500
+25
+17
+15
+tiny boss
+full special

@@ -1,0 +1,21 @@
+Player
+0
+10
+100
+Royal Advisor
+A
+dual weild
+6
+3
+4
+28
+22
+raging blast
+charged fist
+sashuken
+8
+700
+16
+10
+8
+defender

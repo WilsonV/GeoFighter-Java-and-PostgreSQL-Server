@@ -1,0 +1,20 @@
+Player
+0
+10
+0
+Green Archer
+A
+green bow
+21
+6
+2
+43
+40
+leaf bomb
+arrow rain
+arrow rain
+23
+1200
+46
+30
+23

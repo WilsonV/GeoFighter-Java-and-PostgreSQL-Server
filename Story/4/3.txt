@@ -1,0 +1,22 @@
+Player
+0
+10
+0
+Hal Skelet
+A
+skeleton king
+30
+2
+9
+-
+-
+skeletonking_combo1_3
+skeletonking_combo3_1
+skeletonking_combo4_3
+20
+2500
+45
+30
+25
+boss
+full special

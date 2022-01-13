@@ -1,0 +1,20 @@
+Player
+100
+10
+0
+Elite Zombie
+A
+zombie
+22
+9
+5
+12
+11
+zombie_combo1_1
+zombie_combo1_1
+zombie_combo1_1
+13
+800
+26
+17
+13

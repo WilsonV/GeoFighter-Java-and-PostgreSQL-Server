@@ -1,0 +1,22 @@
+Player
+0
+10
+0
+Vampire Lord
+A
+dracula
+24
+8
+12
+30
+24
+dive claw
+guarding graves
+dive claw
+15
+1500
+35
+23
+20
+boss
+full special

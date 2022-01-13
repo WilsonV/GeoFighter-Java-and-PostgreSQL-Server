@@ -1,0 +1,23 @@
+Garden
+Player
+0
+10
+0
+Spider King
+A
+spider
+22
+15
+24
+66
+53
+web attack
+hatchling summoning
+web attack
+50
+15000
+100
+50
+10
+full special
+boss

@@ -1,0 +1,22 @@
+Player
+40
+10
+-40
+Axion
+A
+axion
+6
+29
+18
+65
+52
+pure rage
+guard
+unstopable
+50
+7000
+100
+50
+50
+boss
+full special

@@ -1,0 +1,23 @@
+GARDEN
+Player
+0
+10
+0
+The Creator
+A
+creator
+5
+21
+11
+41
+38
+angelic touch
+angelic smite
+first prayer
+50
+5000
+80
+30
+25
+full special
+reversal

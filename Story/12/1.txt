@@ -1,0 +1,22 @@
+Garden
+Player
+40
+10
+0
+Destroyer
+A
+destruction
+22
+15
+25
+66
+53
+destruction orb
+hakai
+pure rage
+50
+10000
+100
+0
+80
+full special

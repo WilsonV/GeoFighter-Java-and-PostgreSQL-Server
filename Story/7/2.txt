@@ -1,0 +1,22 @@
+Player
+10
+10
+-50
+Poison Wizard
+A
+staff of poison
+31
+19
+11
+38
+35
+first prayer
+first prayer
+first prayer
+40
+2000
+70
+45
+0
+full special
+tiny boss

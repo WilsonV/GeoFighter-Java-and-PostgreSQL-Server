@@ -1,0 +1,21 @@
+Player
+0
+10
+0
+Snow Elf
+A
+tundra
+25
+23
+18
+44
+41
+gut crusher
+assasination
+raging blast
+28
+1600
+56
+37
+28
+elf ears

@@ -1,0 +1,186 @@
+set@heavyweight#$1500
+set@kung fu#$2000
+set@lightning strike#$2000
+set@chimera#$2500
+set@soldier#$2500
+set@lecyclone#$3000
+set@dragon#$5000
+set@dual wield#$6000
+set@tai chi#$7000
+set@soul#$9000
+set@green bow#$10000
+set@tundra#$12000
+set@gladiator#$13000
+set@angelic#$15000
+set@swordsman#$20000
+set@agent#$30000
+set@ninjutsu#$35000
+special@spring trap#$1000
+special@hostile#$2000
+special@hosenka#$2000
+special@fatal strike#$2000
+special@grenade#$2000
+special@arial hadoken#$3000
+special@quick beam#$3000
+special@charged fist#$4000
+special@gut slash#$4000
+special@chidori#$4500
+special@arial hadoken#$4500
+special@thunder storm#$4500
+special@storm barrier#$5500
+special@sashuken#$5500
+special@unstopable#$6000
+special@gut crusher#$6000
+special@solar disk#$6000
+special@raging blast#$6500
+special@hold it#$6500
+special@assasination#$7000
+special@forged hammer#$7000
+special@shinkuu hadoken#$7000
+special@lightning sword#$7500
+special@eliminate#$7500
+special@reversal#$8000
+special@chronic jab#$8000
+special@ninja star#$8500
+special@arrow rain#$8500
+special@leaf bomb#$9000
+special@fire ball#$9000
+special@solar disk assult#$9500
+special@dive claw#$10000
+special@dragon lust#$10000
+special@pure rage#$10000
+special@smoke bomb#$12000
+special@sleep dart#$14000
+special@splitting beam#$15000
+special@soul burner#$16000
+special@earthquake#$17000
+special@guard#$18000
+special@power wave#$18000
+special@tornado kick#$20000
+special@first prayer#$30000
+special@angelic smite#$30000
+special@angelic touch#$30000
+hair@long stylish#2$600
+hair@white cap#18$600
+hair@gold tip#3$650
+hair@blue tip#5$650
+hair@red band#6$700
+hair@white band#7$700
+hair@demonic#8$750
+hair@holy white#9$750
+hair@ninja mask#10$800
+hair@white spikes#11$800
+hair@teal ponytail#12$850
+hair@red demon#14$850
+hair@gold ponytail#13$900
+hair@blue demonic#15$900
+hair@winter hat#26$950
+hair@2nd Headband#16$1000
+hair@green wizard#19$1000
+hair@red wizard#20$1000
+hair@1st Headband#17$1100
+hair@purple wizard#21$1000
+hair@fancy hat red#22$1100
+hair@fancy hat green#23$1100
+hair@summer hat#24$1100
+hair@straw hat#25$1200
+hair@camo cap#27$1200
+face@nerd#2$500
+face@grr#3$500
+face@warrior#4$500
+face@drool#5$500
+face@frown#6$500
+face@zombie#7$500
+face@serious#8$500
+face@evil#9$500
+face@pure evil#10$500
+face@ancient#11$500
+face@vampire#12$500
+face@love#13$500
+face@anger#14$500
+face@scarecrow#15$500
+face@demonic#16$500
+face@green evil#17$500
+face@green soul#18$550
+shirt@troll#16$1
+shirt@orange gi#3$500
+shirt@black armor#4$500
+shirt@green gi#5$500
+shirt@black gi#6$500
+shirt@barbarian#34$500
+shirt@moss strap#7$550
+shirt@green suit#44$550
+shirt@red gi#8$550
+shirt@green zombie#9$600
+shirt@alien skin#10$600
+shirt@fancy suit#11$600
+shirt@purple zombie#12$650
+shirt@gray zombie#13$650
+shirt@demon zombie#14$650
+shirt@boxer T#15$650
+shirt@SF#17$650
+shirt@clean armor#19$700
+shirt@alien#20$700
+shirt@alien v2#21$700
+shirt@alien v3#22$700
+shirt@torn gi#23$700
+shirt@tech#24$700
+shirt@white strap#26$700
+shirt@gold plate#27$750
+shirt@blue plate#28$750
+shirt@orange gi v2#29$750
+shirt@ceremonial suit#30$750
+shirt@black ninja#31$750
+shirt@demon plate#33$800
+shirt@leather vest#35$800
+shirt@gray armor#36$800
+shirt@orange coat#37$850
+shirt@green robe#38$850
+shirt@red robe#39$850
+shirt@purple robe#40$850
+shirt@angelic plate#41$900
+shirt@archer#42$900
+shirt@green archer#43$900
+shirt@red cut-off#45$950
+shirt@green sweater#46$950
+shirt@camo blouse#47$1000
+pants@orange gi#2$300
+pants@purple armor#3$300
+pants@green gi#4$300
+pants@gi bottom#5$350
+pants@blue gi bottom#6$350
+pants@green zombie#7$350
+pants@purple gi#8$400
+pants@suit bottoms#10$400
+pants@purple zombie#11$400
+pants@gray zombie#12$400
+pants@demon zombie#13$450
+pants@barbarian#29$450
+pants@alien#14$450
+pants@alien v2#15$450
+pants@alien v3#16$500
+pants@torn gi#17$500
+pants@blue trunks#18$500
+pants@red trunks#19$500
+pants@green suit BTM#41$500
+pants@gray slack#20$500
+pants@gold plated#21$600
+pants@blue plated#22$600
+pants@orage gi v2#23$600
+pants@ceremonial pants#24$650
+pants@blue slacks#25$650
+pants@classic#26$650
+pants@demon plated#28$650
+pants@blue jeans#31$700
+pants@black jeans#32$700
+pants@blue armor#33$700
+pants@orange coat bottom#34$700
+pants@green robe bottom#35$750
+pants@red robe bottom#36$750
+pants@purple robe bottom#37$750
+pants@angelic plate bottom#38$750
+pants@archer bottom#39$750
+pants@green archer bottom#40$800
+pants@blue summer short#42$800
+pants@green sweater btm#43$800
+pants@camo trouser#44$850

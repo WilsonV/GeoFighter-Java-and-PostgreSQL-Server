@@ -1,0 +1,20 @@
+Player
+-30
+10
+50
+Vera Henchman
+A
+lightning strike
+16
+1
+9
+25
+9
+thunder storm
+storm barrier
+ultimate fist
+3
+300
+6
+4
+3

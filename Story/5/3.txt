@@ -1,0 +1,23 @@
+Player
+0
+10
+0
+Green Golem
+A
+golem
+21
+-
+9
+-
+-
+leaf bomb
+pure rage
+leaf bomb
+25
+3000
+50
+33
+25
+boss
+unhurtable
+full special

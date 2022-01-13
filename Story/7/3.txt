@@ -1,0 +1,22 @@
+Player
+40
+10
+-40
+Fire Wizard
+A
+staff of flames
+27
+20
+11
+39
+36
+soul burner
+fire ball
+first prayer
+45
+4000
+70
+45
+0
+full special
+tiny boss

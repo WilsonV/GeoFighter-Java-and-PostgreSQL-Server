@@ -1,0 +1,22 @@
+freezer
+Player
+50
+10
+-50
+Green Elf
+A
+tundra
+21
+23
+18
+44
+41
+gut crusher
+gut crusher
+gut crusher
+25
+1400
+50
+33
+25
+elf ears

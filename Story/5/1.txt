@@ -1,0 +1,21 @@
+GARDEN
+Player
+-50
+10
+50
+Novice Archer
+A
+green bow
+12
+6
+2
+42
+39
+leaf bomb
+leaf bomb
+leaf bomb
+20
+1000
+40
+27
+20

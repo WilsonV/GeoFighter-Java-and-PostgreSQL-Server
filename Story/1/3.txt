@@ -1,0 +1,23 @@
+Player
+0
+10
+0
+The Verachanic
+A
+verachanic
+20
+2
+9
+24
+20
+splitting beam
+quick beam
+vera beam
+5
+1000
+15
+10
+10
+tiny boss
+full special
+long range attacker

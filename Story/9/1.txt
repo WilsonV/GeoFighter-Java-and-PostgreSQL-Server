@@ -1,0 +1,23 @@
+graveyard
+Player
+40
+10
+-40
+The Darkness
+A
+shadowmancer
+24
+20
+11
+39
+36
+backlash
+backlash
+backlash
+50
+6000
+85
+35
+50
+full special
+tiny boss

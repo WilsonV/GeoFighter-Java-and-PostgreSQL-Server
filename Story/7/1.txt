@@ -1,0 +1,23 @@
+The Pit
+Player
+30
+10
+-30
+Lightning Wizard
+A
+staff of lightning
+28
+21
+11
+40
+37
+thunder storm
+storm barrier
+first prayer
+35
+1800
+65
+40
+0
+full special
+tiny boss

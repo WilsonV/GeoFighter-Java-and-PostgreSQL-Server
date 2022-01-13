@@ -1,0 +1,23 @@
+graveyard
+Player
+40
+10
+-40
+Voodoo
+A
+voodoo
+29
+1
+9
+2
+1
+pure rage
+voodoo summoning
+voodoo summoning
+50
+8000
+85
+30
+60
+boss
+full special

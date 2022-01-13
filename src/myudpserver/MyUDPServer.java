@@ -11,6 +11,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.Statement;
 /**
  *
  * @author Wilson
@@ -21,8 +23,11 @@ public class MyUDPServer{
      * @param args the command line arguments
      */
     public static void main(String[] args) throws AWTException{
-        // code application logic here
-        new MyUDPServer();
+        //Database Connection testing
+        seed();
+        // Actual Server
+        //new MyUDPServer();
+
     }
 
     private UDPServer svr;
@@ -35,53 +40,53 @@ public class MyUDPServer{
 
     }
 
-    private void resetRanks(int r){
+    // private void resetRanks(int r){
 
-        print("Resetting all ranks to: "+r);
-        File userFolders = new File("Users/");
-        File characterFolders;
-        File[] userFiles = userFolders.listFiles();
-        File[] characterFiles;
-        File user_rank_file;
+    //     print("Resetting all ranks to: "+r);
+    //     File userFolders = new File("Users/");
+    //     File characterFolders;
+    //     File[] userFiles = userFolders.listFiles();
+    //     File[] characterFiles;
+    //     File user_rank_file;
 
-        for (File file : userFiles){
+    //     for (File file : userFiles){
 
-            if (file.isDirectory()){
+    //         if (file.isDirectory()){
 
-                //System.out.println("Getting Rank For: "+file.getName());
+    //             //System.out.println("Getting Rank For: "+file.getName());
 
-                    characterFolders = new File("Users/"+file.getName()+"/Character");
-                    characterFiles = characterFolders.listFiles();
+    //                 characterFolders = new File("Users/"+file.getName()+"/Character");
+    //                 characterFiles = characterFolders.listFiles();
 
-                    for(File file2 : characterFiles){
+    //                 for(File file2 : characterFiles){
 
-                        if(file2.isDirectory()){
-                            //System.out.println(">>"+file2.getName());
+    //                     if(file2.isDirectory()){
+    //                         //System.out.println(">>"+file2.getName());
 
-                            user_rank_file = new File("Users/"+file.getName()+"/Character/"+file2.getName()+"/rp.con");
-                            svr.log("Resetting Rank of ["+file.getName()+":"+file2.getName()+"] to "+r);
-                            try{
-                                 FileWriter f_write = new FileWriter(user_rank_file,false);
+    //                         user_rank_file = new File("Users/"+file.getName()+"/Character/"+file2.getName()+"/rp.con");
+    //                         svr.log("Resetting Rank of ["+file.getName()+":"+file2.getName()+"] to "+r);
+    //                         try{
+    //                              FileWriter f_write = new FileWriter(user_rank_file,false);
 
-                                 f_write.write(r+"\n");
-                                 f_write.write("0\n");
-                                 f_write.write("0\n");
+    //                              f_write.write(r+"\n");
+    //                              f_write.write("0\n");
+    //                              f_write.write("0\n");
 
-                                 f_write.close();
+    //                              f_write.close();
 
-                            }catch(IOException d){
-                                d.printStackTrace();
-                            }
-                        }
-                    }
-                    characterFiles = null;
-            }
+    //                         }catch(IOException d){
+    //                             d.printStackTrace();
+    //                         }
+    //                     }
+    //                 }
+    //                 characterFiles = null;
+    //         }
 
-        }
-        print("All RPs resetted to: "+r);
-        svr.sendMessageFromServer("loadrp");
+    //     }
+    //     print("All RPs resetted to: "+r);
+    //     svr.sendMessageFromServer("loadrp");
 
-    }
+    // }
 
     private void loadBannedIPs(){
 
@@ -113,6 +118,21 @@ public class MyUDPServer{
         System.out.println(s+"\n");
     }
 
+    public static void seed(){
+        Statement statement = null;
+        Connection DB = new ConnectDB().getConnection();
+
+        String query = "create table players(id SERIAL primary key, username varchar(200), password varchar(20))";
+
+        try {
+            statement = DB.createStatement();
+            statement.executeUpdate(query);
+            System.out.println("Finished Creating Table in DB!");
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+    }
     // public class textFieldHandler implements ActionListener {
 
     //     public void actionPerformed(ActionEvent e) {

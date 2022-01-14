@@ -1,23 +1,23 @@
-Graveyard
+Server Room
 Player
 50
 10
 50
 Challenger
 C
-tai chi
-1
-4
-6
-28
-22
-chidori
-arrow rain
-flaming shinkuu hadoken
+fist of doom
+5
+9
+17
+59
+48
+charged fist
+hold it
+first prayer
 50
-13768
-79
-54
-75
+12242
+70
+77
+70
 tiny boss
 full special

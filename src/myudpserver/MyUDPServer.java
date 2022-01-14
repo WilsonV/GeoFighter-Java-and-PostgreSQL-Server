@@ -12,6 +12,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.Statement;
 /**
  *
@@ -24,9 +25,9 @@ public class MyUDPServer{
      */
     public static void main(String[] args) throws AWTException{
         //Database Connection testing
-        seed();
+        //seed();
         // Actual Server
-        //new MyUDPServer();
+        new MyUDPServer();
 
     }
 
@@ -120,14 +121,24 @@ public class MyUDPServer{
 
     public static void seed(){
         Statement statement = null;
+        ResultSet result = null;
         Connection DB = new ConnectDB().getConnection();
 
-        String query = "create table players(id SERIAL primary key, username varchar(200), password varchar(20))";
+        //String query = "create table players(id SERIAL primary key, username varchar(200), password varchar(20))";
+        // String query = "insert into players(username,password) values ('ken','123')";
+        String query = "select * from players where username='ken'";
 
         try {
             statement = DB.createStatement();
-            statement.executeUpdate(query);
-            System.out.println("Finished Creating Table in DB!");
+            // statement.executeUpdate(query);
+            result = statement.executeQuery(query);
+
+            while(result.next()){
+                System.out.println("Ken's password is "+result.getString("password"));
+            }
+
+
+            System.out.println("Finished Updating Table in DB!");
         } catch (Exception e) {
             System.out.println(e);
         }

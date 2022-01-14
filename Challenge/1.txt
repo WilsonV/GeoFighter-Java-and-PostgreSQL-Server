@@ -5,19 +5,19 @@ Player
 50
 Challenger
 C
-fist of doom
-5
-9
-17
-59
-48
-charged fist
-hold it
-first prayer
+lecyclone
+11
+24
+13
+6
+6
+shinkuu hadoken
+dragon lust
+splitting beam
 50
-12242
-70
-77
-70
+15003
+92
+57
+68
 tiny boss
 full special

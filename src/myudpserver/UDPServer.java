@@ -9,6 +9,7 @@ import java.io.*;
 import java.net.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -109,10 +110,15 @@ public class UDPServer {
     private void processData(String msg, InetAddress address, int port) throws AWTException {
 
         log("processing: " + msg);
-        boolean banned = false;
+
+        String command = msg.substring(0,msg.indexOf(" "));
+        log("command: "+command);
+        String cmdArgs  = msg.substring(msg.indexOf(" ")+1);
+
         String value;
 
         // check if it is from a banned IP
+        boolean banned = false;
         for (BannedIP b : banned_ips) {
 
             if (b.ip.equals(address)) {
@@ -126,11 +132,13 @@ public class UDPServer {
 
         }
 
-        if (banned)
-            return;
+        if (banned)return;
+        /** NO COMMANDS BEFORE BAN CHECK */
+        /** NO COMMANDS BEFORE BAN CHECK */
+        /** NO COMMANDS BEFORE BAN CHECK */
 
         // someone is checking if the server is online
-        if (msg.equals("server_online?")) {
+        if (command.equals("server_online")) {
 
             sendMessage("online", address, port);
 
@@ -154,7 +162,7 @@ public class UDPServer {
         }
 
         // Checking Version
-        if (msg.startsWith("vrs")) {
+        if (command.equals("vrs")) {
             value = msg.substring(3);
 
             if (value.equals(version)) {
@@ -188,6 +196,21 @@ public class UDPServer {
             return;
         }
 
+        //Login
+        if(command.equals("login")){
+            String name = cmdArgs.substring(0,cmdArgs.indexOf("!"));
+            String password = cmdArgs.substring(cmdArgs.indexOf("!")+1);
+
+            if(loginAccount(name, password)){
+                sendMessage("true", address, port);
+                log("access granted!");
+            }else{
+                sendMessage("false", address, port);
+                log("access failed!");
+            }
+
+            return;
+        }
         // Player Logged Out
         if (msg.startsWith("plo")) {
             value = msg.substring(3);
@@ -640,19 +663,22 @@ public class UDPServer {
         }
 
         // New User
-        if (msg.startsWith("nuser")) {
+        if (command.equals("nuser")) {
             value = msg.substring(5);
+            String name = value.substring(0,value.indexOf("!"));
+            String password = value.substring(value.indexOf("!")+1,value.indexOf("#"));
+            String email = value.substring(value.indexOf("#")+1);
 
-            try {
+            print("recieved nuser for :"+value);
+            if(registerAccount(name, password, email)){
 
-                new File("Users/" + value).mkdir();
-                new File("Users/" + value + "/Character").mkdir();
-                new File("Users/" + value + "/Character/list.con").createNewFile();
                 sendMessage("user created", address, port);
+                print("** " + name + " has registered!");
 
-                print("** " + msg.substring(5) + " has registered!");
-            } catch (IOException e) {
-                e.printStackTrace();
+            }else{
+
+                sendMessage("failed registration", address, port);
+                print("** Failed to register account for "+name+" **");
             }
 
             return;
@@ -719,41 +745,52 @@ public class UDPServer {
         }
 
         // Check if Account Exist
-        if (msg.startsWith("accexist")) {
+        if (command.equals("accexist")) {
             value = msg.substring(8);
 
             try {
 
-                ResultSet result = DB.createStatement()
+                ResultSet results = DB.createStatement()
                         .executeQuery("select * from accounts where username='" + value + "'");
 
-                while (result.next()) {
-                    //print("Result from DB: username is " + result.getString("username") + ", password is "
-                    //        + result.getString("password"));
+                //System.out.print(results);
+
+                if(results.next()) {
+                    print("Result from DB: username is " + results.getString("username") + ", password is "
+                            + results.getString("password"));
 
                     //System.out.println("Value is " + value);
 
-                    if (result.getString("username").equals(value)) {
+                    if (results.getString("username").equals(value)) {
                         //System.out.println("this account exist!");
                         sendMessage("true", address, port);
+                        print("account was found...");
                     } else {
                         //System.out.println("this account does NOT exist!");
                         sendMessage("false", address, port);
+                        print("account was not found...");
                     }
 
+                    print("...in accexist loop...");
+                }else{
+                    sendMessage("false", address, port);
+                    print("account was not found...");
                 }
+
             } catch (Exception e) {
+                print("Error: couldn't check if account existed");
                 e.printStackTrace();
             }
             // File temp_file = new File("Users/" + value);
 
-            // if (temp_file.exists() && temp_file.isDirectory()) {
+            // if (temp_file.exists() && temp_file.isDirectory`()) {
 
             // sendMessage("true", address, port);
             // } else {
             // sendMessage("false", address, port);
             // }
 
+            print("returning...");
             return;
         }
 
@@ -876,6 +913,49 @@ public class UDPServer {
             return;
         }
 
+    }
+
+    private boolean loginAccount(String name,String password){
+
+        try {
+
+            ResultSet result = DB.createStatement().executeQuery("select password from accounts where username='"+name+"'");
+
+            if(result.next()){
+
+                if(password.equals(result.getString("password"))){
+                    return true;
+                }else{
+                    return false;
+                }
+
+            }else{
+                return false;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+    private boolean registerAccount(String name,String password,String email){
+
+        log("registering on DB...");
+        try {
+            int result = DB.createStatement().executeUpdate("insert into accounts(username,password,email) values ('"+name+"','"+password+"','"+email+"')");
+
+            log("Create account result is:"+result);
+            if(result != 0)
+                return true;
+            else
+                return false;
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        }
+        return false;
     }
 
     private void sendMessage(String s, InetAddress address, int port) {

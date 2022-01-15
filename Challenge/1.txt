@@ -1,23 +1,23 @@
-Server Room
+Freezer
 Player
 50
 10
 50
 Challenger
 C
-lecyclone
-11
-24
-13
-6
-6
-shinkuu hadoken
+angelic
+28
+23
+5
+42
+39
 dragon lust
-splitting beam
+ultimate fist
+vera beam
 50
-15003
-92
-57
-68
+13988
+115
+48
+63
 tiny boss
 full special

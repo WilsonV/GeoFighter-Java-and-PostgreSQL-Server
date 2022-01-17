@@ -211,19 +211,53 @@ public class UDPServer {
             return;
         }
 
+        // Get list of player's characters
         if (command.equals("characterlist")) {
 
             String list = "";
 
             list = getCharacterList(cmdArgs);
 
-            list = list.replace("[", "").replace("]","").trim();
+            list = list.replace("[", "").replace("]", "").trim();
 
             sendMessage(list, address, port);
 
             return;
 
         }
+
+        // Get players tokens on
+        if (command.equals("loadtokens")) {
+
+            sendMessage(getCharacterTokens(cmdArgs), address, port);
+
+            return;
+        }
+
+        // Get player quest
+        if (command.equals("loadquest")) {
+
+            sendMessage(getCharacterQuest(cmdArgs), address, port);
+
+            return;
+        }
+
+        // Get player badges
+        if (command.equals("loadbadges")) {
+
+            sendMessage(getCharacterBadges(cmdArgs), address, port);
+
+            return;
+        }
+
+        // Get player stats
+        if (command.equals("loadstats")) {
+
+            sendMessage(getCharacterStats(cmdArgs), address, port);
+
+            return;
+        }
+
         // Player Logged Out
         if (msg.startsWith("plo")) {
             value = msg.substring(3);
@@ -983,24 +1017,152 @@ public class UDPServer {
         return false;
     }
 
-    private String getCharacterList(String token){
+    private String getCharacterList(String token) {
 
         String finalList = "";
         try {
 
-            ResultSet result = DB.createStatement().executeQuery("select name from characters where account='"+decode64(token)+"'");
+            ResultSet result = DB.createStatement()
+                    .executeQuery("select name from characters where account='" + decode64(token) + "'");
 
             ArrayList<String> list = new ArrayList<String>();
 
-            while(result.next()){
-               list.add(result.getString("name"));
+            while (result.next()) {
+                list.add(result.getString("name"));
             }
 
             finalList = list.toString();
 
-            log("List:"+finalList);
+            log("List:" + finalList);
 
             return finalList;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+
+    }
+
+    private String getCharacterTokens(String token) {
+
+        String playerTokens = "";
+
+        try {
+            String account = token.substring(0, token.indexOf(" "));
+            String character = token.substring(token.indexOf(" ") + 1);
+
+            ResultSet result = DB.createStatement()
+                    .executeQuery("select tokens from characters where account='" + decode64(account) + "' and name='"
+                            + character + "'");
+
+            if (result.next()) {
+
+                playerTokens = result.getString("tokens");
+                log("Tokens found from server is " + playerTokens);
+
+                return playerTokens;
+            } else {
+
+                return "0";
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "0";
+        }
+
+    }
+
+    private String getCharacterQuest(String token) {
+
+        String playerQuest = "";
+
+        try {
+            String account = token.substring(0, token.indexOf(" "));
+            String character = token.substring(token.indexOf(" ") + 1);
+
+            ResultSet result = DB.createStatement()
+                    .executeQuery("select quest , questcounter from characters where account='" + decode64(account)
+                            + "' and name='" + character + "'");
+
+            if (result.next()) {
+
+                playerQuest = result.getString("quest") + "," + result.getString("questcounter");
+                log("Quest found from server is " + playerQuest);
+
+                return playerQuest;
+            } else {
+
+                return "1,0";
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "1,0";
+        }
+
+    }
+
+    private String getCharacterBadges(String token) {
+
+        String playerBadges = "";
+
+        try {
+            String account = token.substring(0, token.indexOf(" "));
+            String character = token.substring(token.indexOf(" ") + 1);
+
+            ResultSet result = DB.createStatement()
+                    .executeQuery("select badges from characters where account='" + decode64(account) + "' and name='"
+                            + character + "'");
+
+            if (result.next()) {
+
+                playerBadges = result.getString("badges");
+                log("Badges found from server is " + playerBadges);
+
+                return playerBadges;
+            } else {
+
+                return "Newbie";
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Newbie";
+        }
+
+    }
+
+    private String getCharacterStats(String token) {
+
+        String playerStats = "";
+
+        try {
+            String account = token.substring(0, token.indexOf(" "));
+            String character = token.substring(token.indexOf(" ") + 1);
+
+            ResultSet result = DB.createStatement()
+                    .executeQuery(
+                            "select level, health, strength, defense, critical, experience, skillpoints, skillpointsused from characters where account='"
+                                    + decode64(account) + "' and name='" + character + "'");
+
+            if(result.next()) {
+
+                for(int i = 1; i <= 8; i++){
+                    if(i < 8)
+                        playerStats += result.getString(i)+",";
+                    else
+                        playerStats += result.getString(i);
+                }
+                log("Stats found from server is " + playerStats);
+
+            }else{
+
+                return "";
+            }
+
+            return playerStats;
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -1178,25 +1340,25 @@ public class UDPServer {
 
     public String encode64(String str) {
 
-        log("Starting Encoding on " + str);
+        // log("Starting Encoding on " + str);
         for (int i = 0; i < 3; i++) {
-            log("Encoding: " + str);
+            // log("Encoding: " + str);
             str = Base64.getEncoder().encodeToString(str.getBytes());
         }
 
-        log("Final encode: " + str);
+        // log("Final encode: " + str);
         return str;
     }
 
     public String decode64(String str) {
 
-        log("Starting Decoding on " + str);
+        // log("Starting Decoding on " + str);
         for (int i = 0; i < 3; i++) {
-            log("Decoding: " + str);
+            // log("Decoding: " + str);
             str = new String(Base64.getDecoder().decode(str));
         }
 
-        log("Final decode: " + str);
+        // log("Final decode: " + str);
         return str;
     }
 }

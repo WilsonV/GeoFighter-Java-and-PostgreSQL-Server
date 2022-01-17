@@ -5,19 +5,19 @@ Player
 50
 Challenger
 C
-angelic
-28
+ninja
+1
 23
-5
-42
-39
-dragon lust
-ultimate fist
+10
+27
+21
+chidori
 vera beam
+energy volley
 50
-13988
-115
-48
-63
+14992
+144
+49
+58
 tiny boss
 full special

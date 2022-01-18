@@ -258,6 +258,44 @@ public class UDPServer {
             return;
         }
 
+        //Get RP stats
+        if(command.equals("loadrp")){
+
+            sendMessage(getCharacterRankStats(cmdArgs), address, port);
+
+            return;
+        }
+
+        if(command.equals("loadstory")){
+
+            sendMessage(getCharacterStory(cmdArgs), address, port);
+            return;
+        }
+
+        if(command.equals("loadequip")){
+
+            sendMessage(getCharacterEquip(cmdArgs), address, port);
+            return;
+        }
+
+        if(command.equals("loadachievements")){
+
+            sendMessage(getCharacterAchievements(cmdArgs), address, port);
+            return;
+        }
+
+        if(command.equals("loadlifetimes")){
+
+            sendMessage(getCharacterLifeTimes(cmdArgs), address, port);
+            return;
+        }
+
+        if(msg.equals("loadchallenge")){
+
+            sendMessage(getChallenge(), address, port);
+            return;
+        }
+
         // Player Logged Out
         if (msg.startsWith("plo")) {
             value = msg.substring(3);
@@ -1163,6 +1201,207 @@ public class UDPServer {
             }
 
             return playerStats;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+
+    }
+
+    private String getCharacterRankStats(String token) {
+
+        String playerStats = "";
+
+        try {
+            String account = token.substring(0, token.indexOf(" "));
+            String character = token.substring(token.indexOf(" ") + 1);
+
+            ResultSet result = DB.createStatement()
+                    .executeQuery(
+                            "select rankpoints, wins, loses from characters where account='"
+                                    + decode64(account) + "' and name='" + character + "'");
+
+            if(result.next()) {
+
+                for(int i = 1; i <= 3; i++){
+                    if(i < 3)
+                        playerStats += result.getString(i)+",";
+                    else
+                        playerStats += result.getString(i);
+                }
+                log("Rank Stats found from server is " + playerStats);
+
+            }else{
+
+                return "";
+            }
+
+            return playerStats;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+
+    }
+
+    private String getCharacterStory(String token) {
+
+        String playerStory = "";
+
+        try {
+            String account = token.substring(0, token.indexOf(" "));
+            String character = token.substring(token.indexOf(" ") + 1);
+
+            ResultSet result = DB.createStatement()
+                    .executeQuery("select story from characters where account='" + decode64(account) + "' and name='"
+                            + character + "'");
+
+            if (result.next()) {
+
+                playerStory = result.getString("story");
+                log("Story found from server is " + playerStory);
+
+                return playerStory;
+            } else {
+
+                return "0";
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "0";
+        }
+
+    }
+
+    private String getCharacterEquip(String token) {
+
+        String playerEquip = "";
+
+        try {
+            String account = token.substring(0, token.indexOf(" "));
+            String character = token.substring(token.indexOf(" ") + 1);
+
+            ResultSet result = DB.createStatement()
+            .executeQuery("select hair, face, shirt, pant, sets.name as currentset, firstspecial.name as special1, secondspecial.name as special2, thirdspecial.name as special3, skintone, badge from characters join sets on characters.currentset = sets.id join specials firstspecial on characters.special1 = firstspecial.id join specials secondspecial on characters.special2 = secondspecial.id join specials thirdspecial on characters.special3 = thirdspecial.id where characters.account='"+ decode64(account) + "' and characters.name='" + character + "'");
+
+            if(result.next()) {
+
+                for(int i = 1; i <= 10; i++){
+                    if(i < 10)
+                        playerEquip += result.getString(i)+",";
+                    else
+                        playerEquip += result.getString(i);
+                }
+                log("Equip found from server is " + playerEquip);
+
+            }else{
+
+                return "";
+            }
+
+            return playerEquip;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+
+    }
+
+    private String getCharacterAchievements(String token) {
+
+        String playerAchievements = "";
+
+        try {
+            String account = token.substring(0, token.indexOf(" "));
+            String character = token.substring(token.indexOf(" ") + 1);
+
+            ResultSet result = DB.createStatement()
+                    .executeQuery("select achievements from characters where account='" + decode64(account) + "' and name='"
+                            + character + "'");
+
+            if (result.next()) {
+
+                playerAchievements = result.getString("achievements");
+                log("Achievements found from server is " + playerAchievements);
+
+                return playerAchievements;
+            } else {
+
+                return "";
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+
+    }
+
+
+    private String getCharacterLifeTimes(String token) {
+
+        String playerLifeTimes = "";
+
+        try {
+            String account = token.substring(0, token.indexOf(" "));
+            String character = token.substring(token.indexOf(" ") + 1);
+
+            ResultSet result = DB.createStatement()
+                    .executeQuery(
+                            "select lifetimetokens, lifetimecounters, lifetimedamage from characters where account='"
+                                    + decode64(account) + "' and name='" + character + "'");
+
+            if(result.next()) {
+
+                for(int i = 1; i <= 3; i++){
+                    if(i < 3)
+                        playerLifeTimes += result.getString(i)+",";
+                    else
+                        playerLifeTimes += result.getString(i);
+                }
+                log("Life time found from server is " + playerLifeTimes);
+
+            }else{
+
+                return "";
+            }
+
+            return playerLifeTimes;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+
+    }
+
+    private String getChallenge(){
+
+        try {
+
+            log("Loading challenge...");
+            BufferedReader f_reader = new BufferedReader( new FileReader("Challenge/1.txt"));
+
+            String challenge = "";
+            String data = f_reader.readLine();
+
+            while(data!= null){
+
+                log("Data:"+data);
+                challenge += data+",";
+
+                data = f_reader.readLine();
+            }
+
+            f_reader.close();
+
+            log("Challenge is "+challenge);
+
+            return challenge;
 
         } catch (Exception e) {
             e.printStackTrace();

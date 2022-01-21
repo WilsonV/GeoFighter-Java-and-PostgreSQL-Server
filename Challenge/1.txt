@@ -1,23 +1,23 @@
-Throne Room
+Server Room
 Player
 50
 10
 50
 Challenger
 C
-soul
-27
-3
-13
-60
-49
-reversal
-thunder storm
-storm barrier
-50
-13836
-137
-46
+fist of doom
+26
 10
+3
+57
+49
+guarding graves
+ultimate fist
+flaming shinkuu hadoken
+50
+11010
+149
+46
+19
 tiny boss
 full special

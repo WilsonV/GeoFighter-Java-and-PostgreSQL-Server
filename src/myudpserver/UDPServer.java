@@ -258,41 +258,59 @@ public class UDPServer {
             return;
         }
 
-        //Get RP stats
-        if(command.equals("loadrp")){
+        // Get RP stats
+        if (command.equals("loadrp")) {
 
             sendMessage(getCharacterRankStats(cmdArgs), address, port);
 
             return;
         }
 
-        if(command.equals("loadstory")){
+        if (command.equals("loadstory")) {
 
             sendMessage(getCharacterStory(cmdArgs), address, port);
             return;
         }
 
-        if(command.equals("loadequip")){
+        if (command.equals("loadequip")) {
 
             sendMessage(getCharacterEquip(cmdArgs), address, port);
             return;
         }
 
-        if(command.equals("loadachievements")){
+        if (command.equals("loadachievements")) {
 
             sendMessage(getCharacterAchievements(cmdArgs), address, port);
             return;
         }
 
-        if(command.equals("loadlifetimes")){
+        if (command.equals("loadlifetimes")) {
 
             sendMessage(getCharacterLifeTimes(cmdArgs), address, port);
             return;
         }
 
-        if(msg.equals("loadchallenge")){
+        if (msg.equals("loadchallenge")) {
 
             sendMessage(getChallenge(), address, port);
+            return;
+        }
+
+        if (command.equals("loadinventoryhairs")) {
+
+            sendMessage(getCharacterInventoryHairs(cmdArgs), address, port);
+            return;
+        }
+
+        if (command.equals("loadinventoryfaces")) {
+
+            sendMessage(getCharacterInventoryFaces(cmdArgs), address, port);
+            return;
+        }
+
+        if (command.equals("loadinventoryshirts")) {
+
+            sendMessage(getCharacterInventoryShirts(cmdArgs), address, port);
             return;
         }
 
@@ -1185,17 +1203,17 @@ public class UDPServer {
                             "select level, health, strength, defense, critical, experience, skillpoints, skillpointsused from characters where account='"
                                     + decode64(account) + "' and name='" + character + "'");
 
-            if(result.next()) {
+            if (result.next()) {
 
-                for(int i = 1; i <= 8; i++){
-                    if(i < 8)
-                        playerStats += result.getString(i)+",";
+                for (int i = 1; i <= 8; i++) {
+                    if (i < 8)
+                        playerStats += result.getString(i) + ",";
                     else
                         playerStats += result.getString(i);
                 }
                 log("Stats found from server is " + playerStats);
 
-            }else{
+            } else {
 
                 return "";
             }
@@ -1222,17 +1240,17 @@ public class UDPServer {
                             "select rankpoints, wins, loses from characters where account='"
                                     + decode64(account) + "' and name='" + character + "'");
 
-            if(result.next()) {
+            if (result.next()) {
 
-                for(int i = 1; i <= 3; i++){
-                    if(i < 3)
-                        playerStats += result.getString(i)+",";
+                for (int i = 1; i <= 3; i++) {
+                    if (i < 3)
+                        playerStats += result.getString(i) + ",";
                     else
                         playerStats += result.getString(i);
                 }
                 log("Rank Stats found from server is " + playerStats);
 
-            }else{
+            } else {
 
                 return "";
             }
@@ -1285,19 +1303,21 @@ public class UDPServer {
             String character = token.substring(token.indexOf(" ") + 1);
 
             ResultSet result = DB.createStatement()
-            .executeQuery("select hair, face, shirt, pant, sets.name as currentset, firstspecial.name as special1, secondspecial.name as special2, thirdspecial.name as special3, skintone, badge from characters join sets on characters.currentset = sets.id join specials firstspecial on characters.special1 = firstspecial.id join specials secondspecial on characters.special2 = secondspecial.id join specials thirdspecial on characters.special3 = thirdspecial.id where characters.account='"+ decode64(account) + "' and characters.name='" + character + "'");
+                    .executeQuery(
+                            "select hair, face, shirt, pant, sets.name as currentset, firstspecial.name as special1, secondspecial.name as special2, thirdspecial.name as special3, skintone, badge from characters join sets on characters.currentset = sets.id join specials firstspecial on characters.special1 = firstspecial.id join specials secondspecial on characters.special2 = secondspecial.id join specials thirdspecial on characters.special3 = thirdspecial.id where characters.account='"
+                                    + decode64(account) + "' and characters.name='" + character + "'");
 
-            if(result.next()) {
+            if (result.next()) {
 
-                for(int i = 1; i <= 10; i++){
-                    if(i < 10)
-                        playerEquip += result.getString(i)+",";
+                for (int i = 1; i <= 10; i++) {
+                    if (i < 10)
+                        playerEquip += result.getString(i) + ",";
                     else
                         playerEquip += result.getString(i);
                 }
                 log("Equip found from server is " + playerEquip);
 
-            }else{
+            } else {
 
                 return "";
             }
@@ -1320,8 +1340,9 @@ public class UDPServer {
             String character = token.substring(token.indexOf(" ") + 1);
 
             ResultSet result = DB.createStatement()
-                    .executeQuery("select achievements from characters where account='" + decode64(account) + "' and name='"
-                            + character + "'");
+                    .executeQuery(
+                            "select achievements from characters where account='" + decode64(account) + "' and name='"
+                                    + character + "'");
 
             if (result.next()) {
 
@@ -1341,7 +1362,6 @@ public class UDPServer {
 
     }
 
-
     private String getCharacterLifeTimes(String token) {
 
         String playerLifeTimes = "";
@@ -1355,17 +1375,17 @@ public class UDPServer {
                             "select lifetimetokens, lifetimecounters, lifetimedamage from characters where account='"
                                     + decode64(account) + "' and name='" + character + "'");
 
-            if(result.next()) {
+            if (result.next()) {
 
-                for(int i = 1; i <= 3; i++){
-                    if(i < 3)
-                        playerLifeTimes += result.getString(i)+",";
+                for (int i = 1; i <= 3; i++) {
+                    if (i < 3)
+                        playerLifeTimes += result.getString(i) + ",";
                     else
                         playerLifeTimes += result.getString(i);
                 }
                 log("Life time found from server is " + playerLifeTimes);
 
-            }else{
+            } else {
 
                 return "";
             }
@@ -1379,27 +1399,295 @@ public class UDPServer {
 
     }
 
-    private String getChallenge(){
+    private String getCharacterInventoryHairs(String token) {
+
+        String playerInventoryHairs = "";
+
+        int start_location = 0;
+        int end_location = -1;
+
+        ArrayList<String> found_hair_numbers = new ArrayList<String>();
+
+        try {
+            String account = token.substring(0, token.indexOf(" "));
+            String character = token.substring(token.indexOf(" ") + 1);
+
+            ResultSet result = DB.createStatement()
+                    .executeQuery(
+                            "select inventoryhair from characters where account='" + decode64(account) + "' and name='"
+                                    + character + "'");
+
+            if (result.next()) {
+
+                String list = result.getString("inventoryhair");
+                String found = "";
+
+                log("List of Hairs found from server is " + list);
+
+                if (list.length() > 0) {
+
+                    do {
+
+                        start_location = end_location+1;
+                        end_location = list.indexOf(",", start_location);
+
+                        if (end_location != -1) {
+                            found = list.substring(start_location, end_location);
+                        } else {
+                            found = list.substring(start_location);
+                        }
+
+                        log("Extracted from hair list " + found);
+
+                        found_hair_numbers.add(found);
+
+                    } while (end_location != -1);
+
+                    for (int i = 0; i < found_hair_numbers.size(); i++) {
+
+                        playerInventoryHairs += getHairDetails(found_hair_numbers.get(i));
+
+                        // Add comma if it's not the last one
+                        if (i != found_hair_numbers.size() - 1) {
+                            playerInventoryHairs += ",";
+                        }
+
+                    }
+                }
+
+                log("Final Hair Inventory " + playerInventoryHairs);
+
+                return playerInventoryHairs;
+            } else {
+
+                return "";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    private String getHairDetails(String num) {
+        try {
+            log("Getting details for hair " + num);
+            ResultSet details = DB.createStatement().executeQuery("select * from hair where id=" + num);
+
+            if (details.next()) {
+
+                return details.getString("name") + "!" + details.getString("id");
+            } else {
+                return "";
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    private String getCharacterInventoryFaces(String token) {
+
+        String playerInventoryFaces = "";
+
+        int start_location = 0;
+        int end_location = -1;
+
+        ArrayList<String> found_face_numbers = new ArrayList<String>();
+
+        try {
+            String account = token.substring(0, token.indexOf(" "));
+            String character = token.substring(token.indexOf(" ") + 1);
+
+            ResultSet result = DB.createStatement()
+                    .executeQuery(
+                            "select inventoryface from characters where account='" + decode64(account) + "' and name='"
+                                    + character + "'");
+
+            if (result.next()) {
+
+                String list = result.getString("inventoryface");
+                String found = "";
+
+                log("List of Faces found from server is " + list);
+
+                if (list.length() > 0) {
+
+                    do {
+
+                        start_location = end_location+1;
+                        end_location = list.indexOf(",", start_location);
+
+                        log("list is " + list);
+                        log("start location is " + start_location);
+                        log("end location is " + end_location);
+
+                        if (end_location != -1) {
+                            found = list.substring(start_location, end_location);
+                        } else {
+                            found = list.substring(start_location);
+                        }
+
+                        log("Extracted from face list " + found);
+
+                        found_face_numbers.add(found);
+
+                    } while (end_location != -1);
+
+                    for (int i = 0; i < found_face_numbers.size(); i++) {
+
+                        playerInventoryFaces += getFaceDetails(found_face_numbers.get(i));
+
+                        // Add comma if it's not the last one
+                        if (i != found_face_numbers.size() - 1) {
+                            playerInventoryFaces += ",";
+                        }
+
+                    }
+                }
+
+                log("Final Face Inventory " + playerInventoryFaces);
+
+                return playerInventoryFaces;
+            } else {
+
+                return "";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    private String getFaceDetails(String num) {
+        try {
+            log("Getting details for face " + num);
+            ResultSet details = DB.createStatement().executeQuery("select * from face where id=" + num);
+
+            if (details.next()) {
+
+                return details.getString("name") + "!" + details.getString("id");
+            } else {
+                return "";
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    private String getCharacterInventoryShirts(String token) {
+
+        String playerInventoryShirts = "";
+
+        int start_location = 0;
+        int end_location = -1;
+
+        ArrayList<String> found_shirt_numbers = new ArrayList<String>();
+
+        try {
+            String account = token.substring(0, token.indexOf(" "));
+            String character = token.substring(token.indexOf(" ") + 1);
+
+            ResultSet result = DB.createStatement()
+                    .executeQuery(
+                            "select inventoryshirt from characters where account='" + decode64(account) + "' and name='"
+                                    + character + "'");
+
+            if (result.next()) {
+
+                String list = result.getString("inventoryshirt");
+                String found = "";
+
+                log("List of Shirts found from server is " + list);
+
+                if (list.length() > 0) {
+
+                    do {
+
+                        start_location = end_location+1;
+                        end_location = list.indexOf(",", start_location);
+
+                        if (end_location != -1) {
+                            found = list.substring(start_location, end_location);
+                        } else {
+                            found = list.substring(start_location);
+                        }
+
+                        log("list is " + list);
+                        log("Extracted from shirt list " + found);
+                        log("start location is " + start_location);
+                        log("end location is " + end_location);
+
+                        found_shirt_numbers.add(found);
+
+                    } while (end_location != -1);
+
+                    for (int i = 0; i < found_shirt_numbers.size(); i++) {
+
+                        playerInventoryShirts += getShirtDetails(found_shirt_numbers.get(i));
+
+                        // Add comma if it's not the last one
+                        if (i != found_shirt_numbers.size() - 1) {
+                            playerInventoryShirts += ",";
+                        }
+
+                    }
+                }
+
+                log("Final Shirt Inventory " + playerInventoryShirts);
+
+                return playerInventoryShirts;
+            } else {
+
+                return "";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    private String getShirtDetails(String num) {
+        try {
+            log("Getting details for shirt " + num);
+            ResultSet details = DB.createStatement().executeQuery("select * from shirt where id=" + num);
+
+            if (details.next()) {
+
+                return details.getString("name") + "!" + details.getString("id");
+            } else {
+                return "";
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    private String getChallenge() {
 
         try {
 
             log("Loading challenge...");
-            BufferedReader f_reader = new BufferedReader( new FileReader("Challenge/1.txt"));
+            BufferedReader f_reader = new BufferedReader(new FileReader("Challenge/1.txt"));
 
             String challenge = "";
             String data = f_reader.readLine();
 
-            while(data!= null){
+            while (data != null) {
 
-                log("Data:"+data);
-                challenge += data+",";
+                log("Data:" + data);
+                challenge += data + ",";
 
                 data = f_reader.readLine();
             }
 
             f_reader.close();
 
-            log("Challenge is "+challenge);
+            log("Challenge is " + challenge);
 
             return challenge;
 

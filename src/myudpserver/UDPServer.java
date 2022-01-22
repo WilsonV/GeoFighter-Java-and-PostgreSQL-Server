@@ -266,7 +266,7 @@ public class UDPServer {
             return;
         }
 
-        if (command.equals("loadstory")) {
+        if (command.equals("loadstorytrack")) {
 
             sendMessage(getCharacterStory(cmdArgs), address, port);
             return;
@@ -296,6 +296,12 @@ public class UDPServer {
             return;
         }
 
+        if (command.equals("loadstory")) {
+
+            sendMessage(getStory(cmdArgs), address, port);
+            return;
+        }
+
         if (command.equals("loadinventoryhairs")) {
 
             sendMessage(getCharacterInventoryHairs(cmdArgs), address, port);
@@ -311,6 +317,36 @@ public class UDPServer {
         if (command.equals("loadinventoryshirts")) {
 
             sendMessage(getCharacterInventoryShirts(cmdArgs), address, port);
+            return;
+        }
+
+        if (command.equals("loadinventorypants")) {
+
+            sendMessage(getCharacterInventoryPants(cmdArgs), address, port);
+            return;
+        }
+
+        if (command.equals("loadinventorysets")) {
+
+            sendMessage(getCharacterInventorySets(cmdArgs), address, port);
+            return;
+        }
+
+        if (command.equals("loadinventoryspecials")) {
+
+            sendMessage(getCharacterInventorySpecials(cmdArgs), address, port);
+            return;
+        }
+
+        if(command.equals("loadredeemedcodes")){
+
+            sendMessage(getCharacterRedeemedCodes(cmdArgs), address, port);
+            return;
+        }
+
+        if(command.equals("loadstones")){
+
+            sendMessage(getCharacterStones(cmdArgs), address, port);
             return;
         }
 
@@ -1667,6 +1703,342 @@ public class UDPServer {
         }
     }
 
+    private String getCharacterInventoryPants(String token) {
+
+        String playerInventoryPants = "";
+
+        int start_location = 0;
+        int end_location = -1;
+
+        ArrayList<String> found_pants_numbers = new ArrayList<String>();
+
+        try {
+            String account = token.substring(0, token.indexOf(" "));
+            String character = token.substring(token.indexOf(" ") + 1);
+
+            ResultSet result = DB.createStatement()
+                    .executeQuery(
+                            "select inventorypants from characters where account='" + decode64(account) + "' and name='"
+                                    + character + "'");
+
+            if (result.next()) {
+
+                String list = result.getString("inventorypants");
+                String found = "";
+
+                log("List of Pants found from server is " + list);
+
+                if (list.length() > 0) {
+
+                    do {
+
+                        start_location = end_location+1;
+                        end_location = list.indexOf(",", start_location);
+
+                        if (end_location != -1) {
+                            found = list.substring(start_location, end_location);
+                        } else {
+                            found = list.substring(start_location);
+                        }
+
+                        log("list is " + list);
+                        log("Extracted from shirt list " + found);
+                        log("start location is " + start_location);
+                        log("end location is " + end_location);
+
+                        found_pants_numbers.add(found);
+
+                    } while (end_location != -1);
+
+                    for (int i = 0; i < found_pants_numbers.size(); i++) {
+
+                        playerInventoryPants += getPantsDetails(found_pants_numbers.get(i));
+
+                        // Add comma if it's not the last one
+                        if (i != found_pants_numbers.size() - 1) {
+                            playerInventoryPants += ",";
+                        }
+
+                    }
+                }
+
+                log("Final Pants Inventory " + playerInventoryPants);
+
+                return playerInventoryPants;
+            } else {
+
+                return "";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    private String getPantsDetails(String num) {
+        try {
+            log("Getting details for pants " + num);
+            ResultSet details = DB.createStatement().executeQuery("select * from pants where id=" + num);
+
+            if (details.next()) {
+
+                return details.getString("name") + "!" + details.getString("id");
+            } else {
+                return "";
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    private String getCharacterInventorySets(String token) {
+
+        String playerInventorySets = "";
+
+        int start_location = 0;
+        int end_location = -1;
+
+        ArrayList<String> found_sets_numbers = new ArrayList<String>();
+
+        try {
+            String account = token.substring(0, token.indexOf(" "));
+            String character = token.substring(token.indexOf(" ") + 1);
+
+            ResultSet result = DB.createStatement()
+                    .executeQuery(
+                            "select inventorysets from characters where account='" + decode64(account) + "' and name='"
+                                    + character + "'");
+
+            if (result.next()) {
+
+                String list = result.getString("inventorysets");
+                String found = "";
+
+                log("List of Sets found from server is " + list);
+
+                if (list.length() > 0) {
+
+                    do {
+
+                        start_location = end_location+1;
+                        end_location = list.indexOf(",", start_location);
+
+                        if (end_location != -1) {
+                            found = list.substring(start_location, end_location);
+                        } else {
+                            found = list.substring(start_location);
+                        }
+
+                        log("list is " + list);
+                        log("Extracted from shirt list " + found);
+                        log("start location is " + start_location);
+                        log("end location is " + end_location);
+
+                        found_sets_numbers.add(found);
+
+                    } while (end_location != -1);
+
+                    for (int i = 0; i < found_sets_numbers.size(); i++) {
+
+                        playerInventorySets += getSetsDetails(found_sets_numbers.get(i));
+
+                        // Add comma if it's not the last one
+                        if (i != found_sets_numbers.size() - 1) {
+                            playerInventorySets += ",";
+                        }
+
+                    }
+                }
+
+                log("Final Sets Inventory " + playerInventorySets);
+
+                return playerInventorySets;
+            } else {
+
+                return "";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    private String getSetsDetails(String num) {
+        try {
+            log("Getting details for sets " + num);
+            ResultSet details = DB.createStatement().executeQuery("select name from sets where id=" + num);
+
+            if (details.next()) {
+
+                return details.getString("name");
+            } else {
+                return "";
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    private String getCharacterInventorySpecials(String token) {
+
+        String playerInventorySpecials = "";
+
+        int start_location = 0;
+        int end_location = -1;
+
+        ArrayList<String> found_specials_numbers = new ArrayList<String>();
+
+        try {
+            String account = token.substring(0, token.indexOf(" "));
+            String character = token.substring(token.indexOf(" ") + 1);
+
+            ResultSet result = DB.createStatement()
+                    .executeQuery(
+                            "select inventoryspecials from characters where account='" + decode64(account) + "' and name='"
+                                    + character + "'");
+
+            if (result.next()) {
+
+                String list = result.getString("inventoryspecials");
+                String found = "";
+
+                log("List of Specials found from server is " + list);
+
+                if (list.length() > 0) {
+
+                    do {
+
+                        start_location = end_location+1;
+                        end_location = list.indexOf(",", start_location);
+
+                        if (end_location != -1) {
+                            found = list.substring(start_location, end_location);
+                        } else {
+                            found = list.substring(start_location);
+                        }
+
+                        log("list is " + list);
+                        log("Extracted from shirt list " + found);
+                        log("start location is " + start_location);
+                        log("end location is " + end_location);
+
+                        found_specials_numbers.add(found);
+
+                    } while (end_location != -1);
+
+                    for (int i = 0; i < found_specials_numbers.size(); i++) {
+
+                        playerInventorySpecials += getSpecialsDetails(found_specials_numbers.get(i));
+
+                        // Add comma if it's not the last one
+                        if (i != found_specials_numbers.size() - 1) {
+                            playerInventorySpecials += ",";
+                        }
+
+                    }
+                }
+
+                log("Final Specials Inventory " + playerInventorySpecials);
+
+                return playerInventorySpecials;
+            } else {
+
+                return "";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    private String getSpecialsDetails(String num) {
+        try {
+            log("Getting details for specials " + num);
+            ResultSet details = DB.createStatement().executeQuery("select name from specials where id=" + num);
+
+            if (details.next()) {
+
+                return details.getString("name");
+            } else {
+                return "";
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    private String getCharacterRedeemedCodes(String token) {
+
+        String playerRedeemedCodes = "";
+
+        try {
+            String account = token.substring(0, token.indexOf(" "));
+            String character = token.substring(token.indexOf(" ") + 1);
+
+            ResultSet result = DB.createStatement()
+                    .executeQuery("select redeemedcodes from characters where account='" + decode64(account) + "' and name='"
+                            + character + "'");
+
+            if (result.next()) {
+
+                playerRedeemedCodes = result.getString("redeemedcodes");
+                log("Redeemed Codes found from server is " + playerRedeemedCodes);
+
+                return playerRedeemedCodes;
+            } else {
+
+                return "";
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+
+    }
+
+    private String getCharacterStones(String token) {
+
+        String playerStones = "";
+
+        try {
+            String account = token.substring(0, token.indexOf(" "));
+            String character = token.substring(token.indexOf(" ") + 1);
+
+            ResultSet result = DB.createStatement()
+                    .executeQuery("select firestones, icestones, spiritstones, bloodstones, lightningstones, darkstones from characters where account='" + decode64(account) + "' and name='"
+                            + character + "'");
+
+            if (result.next()) {
+
+                playerStones = result.getString("firestones")+","+
+                result.getString("icestones")+","+
+                result.getString("spiritstones")+","+
+                result.getString("bloodstones")+","+
+                result.getString("lightningstones")+","+
+                result.getString("darkstones");
+
+                log("Stones found from server is " + playerStones);
+
+                return playerStones;
+            } else {
+
+                return "";
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+
+    }
+
     private String getChallenge() {
 
         try {
@@ -1690,6 +2062,40 @@ public class UDPServer {
             log("Challenge is " + challenge);
 
             return challenge;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+
+    }
+
+    private String getStory(String token) {
+
+        try {
+
+            String storyNum = token.substring(0, token.indexOf(" "));
+            String part = token.substring(token.indexOf(" ") + 1);
+
+            log("Loading story...");
+            BufferedReader f_reader = new BufferedReader(new FileReader("Story/"+storyNum+"/"+part+".txt"));
+
+            String story = "";
+            String data = f_reader.readLine();
+
+            while (data != null) {
+
+                log("Data:" + data);
+                story += data + ",";
+
+                data = f_reader.readLine();
+            }
+
+            f_reader.close();
+
+            log("Story is " + story);
+
+            return story;
 
         } catch (Exception e) {
             e.printStackTrace();

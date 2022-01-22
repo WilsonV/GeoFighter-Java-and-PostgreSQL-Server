@@ -1,23 +1,23 @@
-Server Room
+Throne Room
 Player
 50
 10
 50
 Challenger
 C
-fist of doom
-26
+agent
 10
-3
-57
-49
+18
+7
+43
+40
 guarding graves
-ultimate fist
-flaming shinkuu hadoken
+reversal
+hold it
 50
-11010
-149
-46
-19
+16988
+139
+67
+93
 tiny boss
 full special

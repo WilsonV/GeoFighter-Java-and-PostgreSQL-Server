@@ -77,7 +77,7 @@ public class UDPServer {
                 if (avail_port >= max_server_port)
                     avail_port = server_port + 1;
 
-                byte[] buf = new byte[256];
+                byte[] buf = new byte[2048];
                 // print("waiting...");
                 DatagramPacket packet = new DatagramPacket(buf, buf.length);
 
@@ -338,15 +338,109 @@ public class UDPServer {
             return;
         }
 
-        if(command.equals("loadredeemedcodes")){
+        if (command.equals("loadredeemedcodes")) {
 
             sendMessage(getCharacterRedeemedCodes(cmdArgs), address, port);
             return;
         }
 
-        if(command.equals("loadstones")){
+        if (command.equals("loadstones")) {
 
             sendMessage(getCharacterStones(cmdArgs), address, port);
+            return;
+        }
+
+        if (command.equals("saveachievements")) {
+
+            sendMessage(saveCharacterAchievements(cmdArgs), address, port);
+            return;
+        }
+
+        if (command.equals("savebadges")) {
+
+            sendMessage(saveCharacterBadges(cmdArgs), address, port);
+            return;
+        }
+
+        if (command.equals("savetokens")) {
+
+            sendMessage(saveCharacterTokens(cmdArgs), address, port);
+            return;
+        }
+
+        if (command.equals("savequests")) {
+
+            sendMessage(saveCharacterQuests(cmdArgs), address, port);
+            return;
+        }
+
+        if (command.equals("savelifetimes")) {
+
+            sendMessage(saveCharacterLifeTimes(cmdArgs), address, port);
+            return;
+        }
+
+        if (command.equals("saverp")) {
+
+            sendMessage(saveCharacterRP(cmdArgs), address, port);
+            return;
+        }
+
+        if (command.equals("saveequip")) {
+
+            sendMessage(saveCharacterEquip(cmdArgs), address, port);
+            return;
+        }
+
+        if (command.equals("saveinventoryhair")) {
+            sendMessage(saveCharacterInventoryHair(cmdArgs), address, port);
+            return;
+        }
+
+        if (command.equals("saveinventoryface")) {
+            sendMessage(saveCharacterInventoryFace(cmdArgs), address, port);
+            return;
+        }
+
+        if (command.equals("saveinventoryshirt")) {
+            sendMessage(saveCharacterInventoryShirt(cmdArgs), address, port);
+            return;
+        }
+
+        if (command.equals("saveinventorypant")) {
+            sendMessage(saveCharacterInventoryPants(cmdArgs), address, port);
+            return;
+        }
+
+        if (command.equals("saveinventoryset")) {
+            sendMessage(saveCharacterInventorySets(cmdArgs), address, port);
+            return;
+        }
+
+        if (command.equals("saveinventoryspecial")) {
+            sendMessage(saveCharacterInventorySpecials(cmdArgs), address, port);
+            return;
+        }
+
+        if (command.equals("saveredeemedcodes")) {
+            sendMessage(saveCharacterRedeemedCodes(cmdArgs), address, port);
+            return;
+        }
+
+        if (command.equals("savestats")) {
+            sendMessage(saveCharacterStats(cmdArgs), address, port);
+            return;
+        }
+
+        if (command.equals("savestones")) {
+
+            sendMessage(saveCharacterStones(cmdArgs), address, port);
+            return;
+        }
+
+        if (command.equals("savestorytrack")) {
+
+            sendMessage(saveCharacterStoryTracker(cmdArgs), address, port);
             return;
         }
 
@@ -1273,7 +1367,7 @@ public class UDPServer {
 
             ResultSet result = DB.createStatement()
                     .executeQuery(
-                            "select rankpoints, wins, loses from characters where account='"
+                            "select rankpoints, wins, losses from characters where account='"
                                     + decode64(account) + "' and name='" + character + "'");
 
             if (result.next()) {
@@ -1464,7 +1558,7 @@ public class UDPServer {
 
                     do {
 
-                        start_location = end_location+1;
+                        start_location = end_location + 1;
                         end_location = list.indexOf(",", start_location);
 
                         if (end_location != -1) {
@@ -1551,7 +1645,7 @@ public class UDPServer {
 
                     do {
 
-                        start_location = end_location+1;
+                        start_location = end_location + 1;
                         end_location = list.indexOf(",", start_location);
 
                         log("list is " + list);
@@ -1642,7 +1736,7 @@ public class UDPServer {
 
                     do {
 
-                        start_location = end_location+1;
+                        start_location = end_location + 1;
                         end_location = list.indexOf(",", start_location);
 
                         if (end_location != -1) {
@@ -1732,7 +1826,7 @@ public class UDPServer {
 
                     do {
 
-                        start_location = end_location+1;
+                        start_location = end_location + 1;
                         end_location = list.indexOf(",", start_location);
 
                         if (end_location != -1) {
@@ -1822,7 +1916,7 @@ public class UDPServer {
 
                     do {
 
-                        start_location = end_location+1;
+                        start_location = end_location + 1;
                         end_location = list.indexOf(",", start_location);
 
                         if (end_location != -1) {
@@ -1898,7 +1992,8 @@ public class UDPServer {
 
             ResultSet result = DB.createStatement()
                     .executeQuery(
-                            "select inventoryspecials from characters where account='" + decode64(account) + "' and name='"
+                            "select inventoryspecials from characters where account='" + decode64(account)
+                                    + "' and name='"
                                     + character + "'");
 
             if (result.next()) {
@@ -1912,7 +2007,7 @@ public class UDPServer {
 
                     do {
 
-                        start_location = end_location+1;
+                        start_location = end_location + 1;
                         end_location = list.indexOf(",", start_location);
 
                         if (end_location != -1) {
@@ -1982,8 +2077,9 @@ public class UDPServer {
             String character = token.substring(token.indexOf(" ") + 1);
 
             ResultSet result = DB.createStatement()
-                    .executeQuery("select redeemedcodes from characters where account='" + decode64(account) + "' and name='"
-                            + character + "'");
+                    .executeQuery(
+                            "select redeemedcodes from characters where account='" + decode64(account) + "' and name='"
+                                    + character + "'");
 
             if (result.next()) {
 
@@ -2012,17 +2108,19 @@ public class UDPServer {
             String character = token.substring(token.indexOf(" ") + 1);
 
             ResultSet result = DB.createStatement()
-                    .executeQuery("select firestones, icestones, spiritstones, bloodstones, lightningstones, darkstones from characters where account='" + decode64(account) + "' and name='"
-                            + character + "'");
+                    .executeQuery(
+                            "select firestones, icestones, spiritstones, bloodstones, lightningstones, darkstones from characters where account='"
+                                    + decode64(account) + "' and name='"
+                                    + character + "'");
 
             if (result.next()) {
 
-                playerStones = result.getString("firestones")+","+
-                result.getString("icestones")+","+
-                result.getString("spiritstones")+","+
-                result.getString("bloodstones")+","+
-                result.getString("lightningstones")+","+
-                result.getString("darkstones");
+                playerStones = result.getString("firestones") + "," +
+                        result.getString("icestones") + "," +
+                        result.getString("spiritstones") + "," +
+                        result.getString("bloodstones") + "," +
+                        result.getString("lightningstones") + "," +
+                        result.getString("darkstones");
 
                 log("Stones found from server is " + playerStones);
 
@@ -2078,7 +2176,7 @@ public class UDPServer {
             String part = token.substring(token.indexOf(" ") + 1);
 
             log("Loading story...");
-            BufferedReader f_reader = new BufferedReader(new FileReader("Story/"+storyNum+"/"+part+".txt"));
+            BufferedReader f_reader = new BufferedReader(new FileReader("Story/" + storyNum + "/" + part + ".txt"));
 
             String story = "";
             String data = f_reader.readLine();
@@ -2104,6 +2202,640 @@ public class UDPServer {
 
     }
 
+    // SAVE CHARACTER INFOS
+    private String saveCharacterAchievements(String token) {
+
+        try {
+            String account = token.substring(0, token.indexOf(" "));
+            String character = token.substring(token.indexOf(" ") + 1, token.indexOf(":"));
+            String data = token.substring(token.indexOf(":") + 1);
+
+            int result = DB.createStatement().executeUpdate("update characters set achievements='" + data
+                    + "' where account='" + decode64(account) + "' and name='" + character + "'");
+
+            log("Saved Achievements for " + character + " result is " + result);
+
+            if (result == 1) {
+
+                return "success";
+            } else {
+                return "failed";
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "failed";
+        }
+    }
+
+    private String saveCharacterBadges(String token) {
+
+        try {
+            String account = token.substring(0, token.indexOf(" "));
+            String character = token.substring(token.indexOf(" ") + 1, token.indexOf(":"));
+            String data = token.substring(token.indexOf(":") + 1);
+
+            int result = DB.createStatement().executeUpdate("update characters set badges='" + data
+                    + "' where account='" + decode64(account) + "' and name='" + character + "'");
+
+            log("Saved Badges for " + character + " result is " + result);
+
+            if (result == 1) {
+
+                return "success";
+            } else {
+                return "failed";
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "failed";
+        }
+    }
+
+    private String saveCharacterTokens(String token) {
+
+        try {
+            String account = token.substring(0, token.indexOf(" "));
+            String character = token.substring(token.indexOf(" ") + 1, token.indexOf(":"));
+            String data = token.substring(token.indexOf(":") + 1);
+
+            int result = DB.createStatement().executeUpdate("update characters set tokens='" + data
+                    + "' where account='" + decode64(account) + "' and name='" + character + "'");
+
+            log("Saved Tokens for " + character + " result is " + result);
+
+            if (result == 1) {
+
+                return "success";
+            } else {
+                return "failed";
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "failed";
+        }
+    }
+
+    private String saveCharacterQuests(String token) {
+
+        try {
+            String account = token.substring(0, token.indexOf(" "));
+            String character = token.substring(token.indexOf(" ") + 1, token.indexOf(":"));
+            String data = token.substring(token.indexOf(":") + 1);
+
+            String quest = data.substring(0, data.indexOf(","));
+            String questCounter = data.substring(data.indexOf(',') + 1);
+
+            int result = DB.createStatement()
+                    .executeUpdate("update characters set quest='" + quest + "', questcounter='" + questCounter
+                            + "' where account='" + decode64(account) + "' and name='" + character + "'");
+
+            log("Saved Quest for " + character + " result is " + result);
+
+            if (result == 1) {
+
+                return "success";
+            } else {
+                return "failed";
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "failed";
+        }
+    }
+
+    private String saveCharacterLifeTimes(String token) {
+
+        try {
+            String account = token.substring(0, token.indexOf(" "));
+            String character = token.substring(token.indexOf(" ") + 1, token.indexOf(":"));
+            String data = token.substring(token.indexOf(":") + 1);
+
+            String lifetimeTokens = data.substring(0, data.indexOf(","));
+            data = data.replace(lifetimeTokens + ",", "");
+            String lifetimeCounters = data.substring(0, data.indexOf(","));
+            data = data.replace(lifetimeCounters + ",", "");
+            String lifetimeDamage = data;
+
+            int result = DB.createStatement()
+                    .executeUpdate("update characters set lifetimetokens='" + lifetimeTokens + "', lifetimecounters='"
+                            + lifetimeCounters + "', lifetimedamage='" + lifetimeDamage + "' where account='"
+                            + decode64(account) + "' and name='" + character + "'");
+
+            log("Saved Lifetimes for " + character + " result is " + result);
+
+            if (result == 1) {
+
+                return "success";
+            } else {
+                return "failed";
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "failed";
+        }
+    }
+
+    private String saveCharacterRP(String token) {
+
+        try {
+            String account = token.substring(0, token.indexOf(" "));
+            String character = token.substring(token.indexOf(" ") + 1, token.indexOf(":"));
+            String data = token.substring(token.indexOf(":") + 1);
+
+            String wins = data.substring(0, data.indexOf(","));
+            data = data.replace(wins + ",", "");
+            String losses = data.substring(0, data.indexOf(","));
+            data = data.replace(losses + ",", "");
+            String rankpoints = data;
+
+            int result = DB.createStatement()
+                    .executeUpdate("update characters set wins='" + wins + "', losses='" + losses + "', rankpoints='"
+                            + rankpoints + "' where account='" + decode64(account) + "' and name='" + character + "'");
+
+            log("Saved RP for " + character + " result is " + result);
+
+            if (result == 1) {
+
+                return "success";
+            } else {
+                return "failed";
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "failed";
+        }
+    }
+
+    private String saveCharacterEquip(String token) {
+
+        try {
+            String account = token.substring(0, token.indexOf(" "));
+            String character = token.substring(token.indexOf(" ") + 1, token.indexOf(":"));
+            String list = token.substring(token.indexOf(":") + 1);
+
+            int start_location = 0;
+            int end_location = -1;
+            String found;
+
+            String currentset_id, special1_id, special2_id, special3_id;
+
+            ArrayList<String> data = new ArrayList<String>();
+
+            do {
+
+                start_location = end_location + 1;
+                end_location = list.indexOf(",", start_location);
+
+                if (end_location != -1) {
+                    found = list.substring(start_location, end_location);
+                } else {
+                    found = list.substring(start_location);
+                }
+
+                log("Extracted from save equip list " + found);
+
+                // Data is sent in a specific order
+                data.add(found);
+
+            } while (end_location != -1);
+
+            // Get ID for set and specials
+            ResultSet result_ids = DB.createStatement().executeQuery(
+                    "select sets.id as currentset, firstspecial.id as special1, secondspecial.id as special2, thirdspecial.id as special3 from sets join specials firstspecial on firstspecial.name='"
+                            + data.get(5) + "' join specials secondspecial on secondspecial.name='" + data.get(6)
+                            + "' join specials thirdspecial on thirdspecial.name='" + data.get(7)
+                            + "' where sets.name='" + data.get(4) + "'");
+
+            if (result_ids.next()) {
+
+                currentset_id = result_ids.getString("currentset");
+                special1_id = result_ids.getString("special1");
+                special2_id = result_ids.getString("special2");
+                special3_id = result_ids.getString("special3");
+
+            } else {
+
+                return "failed";
+            }
+
+            // Save Data
+            int result = DB.createStatement()
+                    .executeUpdate("update characters set hair='" + data.get(0) + "', face='" + data.get(1)
+                            + "', shirt='" + data.get(2) + "', pant='" + data.get(3) + "', currentset='" + currentset_id
+                            + "', special1='" + special1_id + "', special2='" + special2_id + "', special3='"
+                            + special3_id + "', skintone='" + data.get(8) + "', badge='" + data.get(9)
+                            + "' where account='" + decode64(account) + "' and name='" + character + "'");
+
+            log("Saved equip for character " + character + " is " + result);
+
+            if (result == 1) {
+                return "success";
+            } else {
+                return "failed";
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return "failed";
+        }
+    }
+
+    private String saveCharacterInventoryHair(String token) {
+
+        try {
+            String account = token.substring(0, token.indexOf(" "));
+            String character = token.substring(token.indexOf(" ") + 1, token.indexOf(":"));
+            String list = token.substring(token.indexOf(":") + 1);
+
+            log("Saving hair list " + list);
+
+            int result = DB.createStatement().executeUpdate("update characters set inventoryhair='" + list
+                    + "' where account='" + decode64(account) + "' and name='" + character + "'");
+
+            if (result == 1) {
+                return "success";
+            } else {
+                return "failed";
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "failed";
+        }
+    }
+
+    private String saveCharacterInventoryFace(String token) {
+
+        try {
+            String account = token.substring(0, token.indexOf(" "));
+            String character = token.substring(token.indexOf(" ") + 1, token.indexOf(":"));
+            String list = token.substring(token.indexOf(":") + 1);
+
+            log("Saving face list " + list);
+
+            int result = DB.createStatement().executeUpdate("update characters set inventoryface='" + list
+                    + "' where account='" + decode64(account) + "' and name='" + character + "'");
+
+            if (result == 1) {
+                return "success";
+            } else {
+                return "failed";
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "failed";
+        }
+    }
+
+    private String saveCharacterInventoryShirt(String token) {
+
+        try {
+            String account = token.substring(0, token.indexOf(" "));
+            String character = token.substring(token.indexOf(" ") + 1, token.indexOf(":"));
+            String list = token.substring(token.indexOf(":") + 1);
+
+            int result = DB.createStatement().executeUpdate("update characters set inventoryshirt='" + list
+                    + "' where account='" + decode64(account) + "' and name='" + character + "'");
+
+            if (result == 1) {
+                return "success";
+            } else {
+                return "failed";
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "failed";
+        }
+    }
+
+    private String saveCharacterInventoryPants(String token) {
+
+        try {
+            String account = token.substring(0, token.indexOf(" "));
+            String character = token.substring(token.indexOf(" ") + 1, token.indexOf(":"));
+            String list = token.substring(token.indexOf(":") + 1);
+
+            int result = DB.createStatement().executeUpdate("update characters set inventorypants='" + list
+                    + "' where account='" + decode64(account) + "' and name='" + character + "'");
+
+            if (result == 1) {
+                return "success";
+            } else {
+                return "failed";
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "failed";
+        }
+    }
+
+    private String saveCharacterInventorySets(String token) {
+
+        try {
+            String account = token.substring(0, token.indexOf(" "));
+            String character = token.substring(token.indexOf(" ") + 1, token.indexOf(":"));
+            String list = token.substring(token.indexOf(":") + 1);
+
+            int start_location = 0;
+            int end_location = -1;
+            String found;
+            String setIdList = "";
+
+            ArrayList<String> data = new ArrayList<String>();
+
+            do {
+
+                start_location = end_location + 1;
+                end_location = list.indexOf(",", start_location);
+
+                if (end_location != -1) {
+                    found = list.substring(start_location, end_location);
+                } else {
+                    found = list.substring(start_location);
+                }
+
+                log("Extracted from save set list " + found);
+
+                data.add(found.toLowerCase());
+
+            } while (end_location != -1);
+
+            // If list is empty, throw an execption
+            if (data.isEmpty()) {
+                throw new Exception("Set list to save for " + character + " is empty!");
+            }
+
+            // Get ID for sets
+            ResultSet result_ids = DB.createStatement()
+                    .executeQuery("select id from sets where" + saveSetSQLFormatHelper(data));
+
+            while (result_ids.next()) {
+
+                if (result_ids.isLast()) {
+                    setIdList += result_ids.getString("id");
+                } else {
+                    setIdList += result_ids.getString("id") + ",";
+                }
+            }
+
+            log("List of sets to save is " + setIdList);
+
+            int result = DB.createStatement().executeUpdate("update characters set inventorysets='" + setIdList
+                    + "' where account='" + decode64(account) + "' and name='" + character + "'");
+
+            if (result == 1) {
+                return "success";
+            } else {
+                return "failed";
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "failed";
+        }
+    }
+
+    private String saveCharacterInventorySpecials(String token) {
+
+        try {
+            String account = token.substring(0, token.indexOf(" "));
+            String character = token.substring(token.indexOf(" ") + 1, token.indexOf(":"));
+            String list = token.substring(token.indexOf(":") + 1);
+
+            int start_location = 0;
+            int end_location = -1;
+            String found;
+            String specialIdList = "";
+
+            ArrayList<String> data = new ArrayList<String>();
+
+            do {
+
+                start_location = end_location + 1;
+                end_location = list.indexOf(",", start_location);
+
+                if (end_location != -1) {
+                    found = list.substring(start_location, end_location);
+                } else {
+                    found = list.substring(start_location);
+                }
+
+                log("Extracted from save special list " + found);
+
+                data.add(found.toLowerCase());
+
+            } while (end_location != -1);
+
+            // If list is empty, throw an execption
+            if (data.isEmpty()) {
+                throw new Exception("Special list to save for " + character + " is empty!");
+            }
+
+            // Get ID for sets
+            ResultSet result_ids = DB.createStatement()
+                    .executeQuery("select id from specials where" + saveSetSQLFormatHelper(data));
+
+            while (result_ids.next()) {
+
+                if (result_ids.isLast()) {
+                    specialIdList += result_ids.getString("id");
+                } else {
+                    specialIdList += result_ids.getString("id") + ",";
+                }
+            }
+
+            log("List of specials to save is " + specialIdList);
+
+            int result = DB.createStatement().executeUpdate("update characters set inventoryspecials='" + specialIdList
+                    + "' where account='" + decode64(account) + "' and name='" + character + "'");
+
+            if (result == 1) {
+                return "success";
+            } else {
+                return "failed";
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "failed";
+        }
+    }
+
+    private String saveSetSQLFormatHelper(ArrayList<String> data) {
+
+        String formatList = "";
+
+        for (int i = 0; i < data.size(); i++) {
+            if (i == data.size() - 1) {
+                formatList += " name='" + data.get(i) + "'";
+            } else {
+                formatList += " name='" + data.get(i) + "' or";
+            }
+        }
+
+        log("Format of sql sets command " + formatList);
+        return formatList;
+    }
+
+    private String saveCharacterRedeemedCodes(String token) {
+
+        try {
+            String account = token.substring(0, token.indexOf(" "));
+            String character = token.substring(token.indexOf(" ") + 1, token.indexOf(":"));
+            String list = token.substring(token.indexOf(":") + 1);
+
+            log("Saving redeemed codes list " + list);
+
+            int result = DB.createStatement().executeUpdate("update characters set redeemedcodes='" + list
+                    + "' where account='" + decode64(account) + "' and name='" + character + "'");
+
+            if (result == 1) {
+                return "success";
+            } else {
+                return "failed";
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "failed";
+        }
+    }
+
+    private String saveCharacterStats(String token) {
+
+        try {
+            String account = token.substring(0, token.indexOf(" "));
+            String character = token.substring(token.indexOf(" ") + 1, token.indexOf(":"));
+            String list = token.substring(token.indexOf(":") + 1);
+
+            int start_location = 0;
+            int end_location = -1;
+            String found;
+
+            ArrayList<String> data = new ArrayList<String>();
+
+            do {
+
+                start_location = end_location + 1;
+                end_location = list.indexOf(",", start_location);
+
+                if (end_location != -1) {
+                    found = list.substring(start_location, end_location);
+                } else {
+                    found = list.substring(start_location);
+                }
+
+                log("Extracted from save stats list " + found);
+
+                // Data is sent in a specific order
+                data.add(found);
+
+            } while (end_location != -1);
+
+            // Save Data
+            int result = DB.createStatement()
+                    .executeUpdate("update characters set level='" + data.get(0) + "', health='" + data.get(1)
+                            + "', strength='" + data.get(2) + "', defense='" + data.get(3) + "', critical='"
+                            + data.get(4) + "', experience='" + data.get(5) + "', skillpoints='" + data.get(6)
+                            + "', skillpointsused='" + data.get(7) + "' where account='" + decode64(account)
+                            + "' and name='" + character + "'");
+
+            log("Saved stats for character " + character + " is " + result);
+
+            if (result == 1) {
+                return "success";
+            } else {
+                return "failed";
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return "failed";
+        }
+    }
+
+    private String saveCharacterStones(String token) {
+
+        try {
+            String account = token.substring(0, token.indexOf(" "));
+            String character = token.substring(token.indexOf(" ") + 1, token.indexOf(":"));
+            String list = token.substring(token.indexOf(":") + 1);
+
+            int start_location = 0;
+            int end_location = -1;
+            String found;
+
+            ArrayList<String> data = new ArrayList<String>();
+
+            do {
+
+                start_location = end_location + 1;
+                end_location = list.indexOf(",", start_location);
+
+                if (end_location != -1) {
+                    found = list.substring(start_location, end_location);
+                } else {
+                    found = list.substring(start_location);
+                }
+
+                log("Extracted from save stones list " + found);
+
+                // Data is sent in a specific order
+                data.add(found);
+
+            } while (end_location != -1);
+
+            if(data.isEmpty()){
+                throw new Exception("Stone list is empty");
+            }
+
+            int result = DB.createStatement().executeUpdate("update characters set firestones='"+data.get(0)+"', icestones='"+data.get(1)+"', spiritstones='"+data.get(2)+"', lightningstones='"+data.get(3)+"', bloodstones='"+data.get(4)+", darkstones='"+data.get(5)+"' where account='"+decode64(account)+"' and name='"+character+"'");
+
+            if(result == 1){
+                return "success";
+            }else{
+                return "failed";
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "failed";
+        }
+
+    }
+
+    private String saveCharacterStoryTracker(String token) {
+
+        try {
+            String account = token.substring(0, token.indexOf(" "));
+            String character = token.substring(token.indexOf(" ") + 1, token.indexOf(":"));
+            String list = token.substring(token.indexOf(":") + 1);
+
+            int result = DB.createStatement().executeUpdate("update characters set story='"+list+"' where account='"+decode64(account)+"' and name='"+character+"'");
+
+            if(result == 1){
+                return "success";
+            }else{
+                return "failed";
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "failed";
+        }
+
+    }
     private void sendMessage(String s, InetAddress address, int port) {
 
         try {

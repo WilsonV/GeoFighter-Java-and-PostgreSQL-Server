@@ -1,23 +1,23 @@
-Throne Room
+Graveyard
 Player
 50
 10
 50
 Challenger
 C
-agent
-10
-18
-7
-43
-40
-guarding graves
-reversal
-hold it
+fist of dragons
+2
+15
+13
+51
+49
+energy volley
+pure rage
+hosenka
 50
-16988
-139
+19703
 67
-93
+86
+46
 tiny boss
 full special

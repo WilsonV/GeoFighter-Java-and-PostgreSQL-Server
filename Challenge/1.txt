@@ -1,23 +1,23 @@
-Graveyard
+Dojo
 Player
 50
 10
 50
 Challenger
 C
-fist of dragons
-2
-15
+gladiator
+20
+25
+14
 13
-51
-49
-energy volley
-pure rage
-hosenka
+12
+solar disk
+forged hammer
+gut slash
 50
-19703
-67
-86
-46
+11360
+88
+94
+68
 tiny boss
 full special

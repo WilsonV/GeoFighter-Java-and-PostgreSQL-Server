@@ -918,39 +918,39 @@ public class UDPServer {
         }
 
         // New Character
-        if (msg.startsWith("nchar")) {
-            value = msg.substring(5);
-            String account = value.substring(0, value.indexOf("."));
-            String character = value.substring(value.indexOf(".") + 1);
+        // if (msg.startsWith("nchar")) {
+        //     value = msg.substring(5);
+        //     String account = value.substring(0, value.indexOf("."));
+        //     String character = value.substring(value.indexOf(".") + 1);
 
-            // print("New Character ["+character+"] in Account ["+account+"]");
-            // print("Value: "+value);
-            // print("Account: "+account);
-            // print("Character: "+character);
+        //     // print("New Character ["+character+"] in Account ["+account+"]");
+        //     // print("Value: "+value);
+        //     // print("Account: "+account);
+        //     // print("Character: "+character);
 
-            // Add Dir for new character
-            new File("Users/" + account + "/Character/" + character).mkdir();
+        //     // Add Dir for new character
+        //     new File("Users/" + account + "/Character/" + character).mkdir();
 
-            try {
-                // Write Charcter to player's list of characters
-                FileWriter fr = new FileWriter(new File("Users/" + account + "/Character/list.con"), true);
-                fr.write(character + "\n");
-                fr.close();
+        //     try {
+        //         // Write Charcter to player's list of characters
+        //         FileWriter fr = new FileWriter(new File("Users/" + account + "/Character/list.con"), true);
+        //         fr.write(character + "\n");
+        //         fr.close();
 
-                // Write character to the name taken list
-                fr = new FileWriter(new File("Users/allcharacters.con"), true);
-                fr.write(character + "\n");
-                fr.close();
+        //         // Write character to the name taken list
+        //         fr = new FileWriter(new File("Users/allcharacters.con"), true);
+        //         fr.write(character + "\n");
+        //         fr.close();
 
-                sendMessage("char created", address, port);
+        //         sendMessage("char created", address, port);
 
-                print("** " + account + " has registered a new character: " + character + " **");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        //         print("** " + account + " has registered a new character: " + character + " **");
+        //     } catch (IOException e) {
+        //         e.printStackTrace();
+        //     }
 
-            return;
-        }
+        //     return;
+        // }
 
         // File Transfer {Receiving a file}
         if (msg.startsWith("frecv")) {
@@ -979,85 +979,19 @@ public class UDPServer {
 
         // Check if Account Exist
         if (command.equals("accexist")) {
-            value = msg.substring(8);
-
-            try {
-
-                ResultSet results = DB.createStatement()
-                        .executeQuery("select * from accounts where username='" + value + "'");
-
-                // System.out.print(results);
-
-                if (results.next()) {
-                    print("Result from DB: username is " + results.getString("username") + ", password is "
-                            + results.getString("password"));
-
-                    // System.out.println("Value is " + value);
-
-                    if (results.getString("username").equals(value)) {
-                        // System.out.println("this account exist!");
-                        sendMessage("true", address, port);
-                        print("account was found...");
-                    } else {
-                        // System.out.println("this account does NOT exist!");
-                        sendMessage("false", address, port);
-                        print("account was not found...");
-                    }
-
-                    print("...in accexist loop...");
-                } else {
-                    sendMessage("false", address, port);
-                    print("account was not found...");
-                }
-
-            } catch (Exception e) {
-                print("Error: couldn't check if account existed");
-                e.printStackTrace();
-            }
-            // File temp_file = new File("Users/" + value);
-
-            // if (temp_file.exists() && temp_file.isDirectory`()) {
-
-            // sendMessage("true", address, port);
-            // } else {
-            // sendMessage("false", address, port);
-            // }
-
-            print("returning...");
+            sendMessage(checkIfAccountExist(cmdArgs), address, port);
             return;
         }
 
         // Check if Character Exist
-        if (msg.startsWith("charexist")) {
-            value = msg.substring(9);
-            boolean charExists = false;
-            try {
+        if (command.equals("charexist")) {
+           sendMessage(checkIfCharacterExist(cmdArgs), address, port);
+            return;
+        }
 
-                File temp_file = new File("Users/allcharacters.con");
-                BufferedReader br = new BufferedReader(new FileReader(temp_file));
-                try {
-                    String line;
-                    while ((line = br.readLine()) != null) {
-                        if (line.equalsIgnoreCase(value)) {
-                            charExists = true;
-                            sendMessage("true", address, port);
-                            break;
-                        }
-                    }
-
-                    br.close();
-
-                    if (!charExists) {
-                        sendMessage("false", address, port);
-                    }
-                } catch (IOException f) {
-                    f.printStackTrace();
-                }
-
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-
+        //Create new character
+        if(command.equals("addnewcharacter")){
+            sendMessage(createNewCharacter(cmdArgs), address, port);
             return;
         }
 
@@ -1328,10 +1262,11 @@ public class UDPServer {
             String account = token.substring(0, token.indexOf(" "));
             String character = token.substring(token.indexOf(" ") + 1);
 
+            log("getting stat for "+character);
+
             ResultSet result = DB.createStatement()
                     .executeQuery(
-                            "select level, health, strength, defense, critical, experience, skillpoints, skillpointsused from characters where account='"
-                                    + decode64(account) + "' and name='" + character + "'");
+                            "select level, health, strength, defense, critical, experience, skillpoints, skillpointsused from characters where account='"+ decode64(account) + "' and name='" + character + "'");
 
             if (result.next()) {
 
@@ -2836,6 +2771,77 @@ public class UDPServer {
         }
 
     }
+
+    private String checkIfAccountExist(String account){
+
+        try {
+
+            ResultSet result = DB.createStatement().executeQuery("select username from accounts where username='"+account+"'");
+
+            if(result.next()){
+
+                if(result.getString("username").equals(account)){
+                    return "true";
+                }else{
+                    return "false";
+                }
+
+            }else{
+                return "false";
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "failed";
+
+        }
+    }
+
+    private String checkIfCharacterExist(String character){
+
+        try {
+
+            ResultSet result = DB.createStatement().executeQuery("select name from characters where name='"+character+"'");
+
+            if(result.next()){
+
+                if(result.getString("name").equals(character)){
+                    return "true";
+                }else{
+                    return "false";
+                }
+
+            }else{
+                return "false";
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "failed";
+
+        }
+    }
+
+    private String createNewCharacter(String token) {
+
+        try {
+            String account = token.substring(0, token.indexOf(" "));
+            String character = token.substring(token.indexOf(" ") + 1);
+
+            int result = DB.createStatement().executeUpdate("insert into characters(name,account) values('"+character+"','"+decode64(account)+"')");
+
+            if(result == 1){
+                return "success";
+            }else{
+                return "failed";
+            }
+
+        }catch(Exception e){
+            e.printStackTrace();
+            return "failed";
+        }
+    }
+
     private void sendMessage(String s, InetAddress address, int port) {
 
         try {
